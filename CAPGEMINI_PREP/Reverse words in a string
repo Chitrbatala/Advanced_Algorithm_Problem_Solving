@@ -1,0 +1,49 @@
+class Solution {
+    public String reverseWords(String s) {
+        // Step 1: Reverse the whole string
+        StringBuilder sb = new StringBuilder(s);
+        sb.reverse();
+
+        int i = 0;
+        int l = 0, r = 0;
+        int n = sb.length();
+
+        while (i < n) {
+            // Copy non-space characters
+            while (i < n && sb.charAt(i) != ' ') {
+                sb.setCharAt(r, sb.charAt(i));
+                i++;
+                r++;
+            }
+
+            if (l < r) { // we found a word
+                // Reverse the current word
+                reverse(sb, l, r - 1);
+
+                // Add a space (only if more characters remain)
+                if (r < n) {
+                    sb.setCharAt(r, ' ');
+                    r++;
+                }
+
+                // Update l to next start
+                l = r;
+            }
+            i++; // skip the space in the reversed string
+        }
+
+        // ✅ return the substring without cutting the last letter
+        return sb.substring(0, r > 0 && sb.charAt(r - 1) == ' ' ? r - 1 : r);
+    }
+
+    // Helper to reverse part of StringBuilder
+    private void reverse(StringBuilder sb, int left, int right) {
+        while (left < right) {
+            char temp = sb.charAt(left);
+            sb.setCharAt(left, sb.charAt(right));
+            sb.setCharAt(right, temp);
+            left++;
+            right--;
+        }
+    }
+}
