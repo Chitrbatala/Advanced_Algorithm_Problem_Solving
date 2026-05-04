@@ -1,0 +1,60 @@
+class Solution {
+    public int findPages(int[] arr, int k) {
+        int n = arr.length;
+        
+        // edge case
+        if (k > n) return -1;
+
+        int low = max(arr);       // not minimum!
+        int high = summation(arr);
+
+        int ans = -1;
+
+        while (low <= high) {
+            int mid = low + (high - low) / 2;
+
+            int studentsRequired = student(arr, mid);
+
+            if (studentsRequired > k) {
+                // need more students → increase limit
+                low = mid + 1;
+            } else {
+                // possible answer → try smaller
+                ans = mid;
+                high = mid - 1;
+            }
+        }
+        return ans;
+    }
+
+    private int max(int[] arr) {
+        int max = arr[0];
+        for (int i = 1; i < arr.length; i++) {
+            max = Math.max(max, arr[i]);
+        }
+        return max;
+    }
+
+    private int summation(int[] arr) {
+        int sum = 0;
+        for (int i = 0; i < arr.length; i++) {
+            sum += arr[i];
+        }
+        return sum;
+    }
+
+    private int student(int[] arr, int limit) {
+        int studentCount = 1;
+        int pages = 0;
+
+        for (int i = 0; i < arr.length; i++) {
+            if (pages + arr[i] <= limit) {
+                pages += arr[i];
+            } else {
+                studentCount++;
+                pages = arr[i];
+            }
+        }
+        return studentCount;
+    }
+}
