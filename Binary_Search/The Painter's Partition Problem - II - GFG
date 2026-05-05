@@ -1,0 +1,55 @@
+class Solution {
+    public int minTime(int[] arr, int k) {
+        int low = maximum(arr);
+        int high = summation(arr);
+        
+        if (k == 1) return high;
+        
+        int ans = -1;
+        
+        while (low <= high) {
+            int mid = low + (high - low) / 2;
+            
+            int paintersRequired = painters(arr, mid);
+            
+            if (paintersRequired <= k) {
+                ans = mid;
+                high = mid - 1;
+            } else {
+                low = mid + 1;
+            }
+        }
+        return ans;
+        
+    }
+    private int maximum(int[] arr) {
+        int max = arr[0];
+        
+        for (int i = 0; i < arr.length; i++) {
+            max = Math.max(arr[i], max);
+        }
+        return max;
+    }
+    private int summation(int[] arr) {
+        int sum = 0;
+        
+        for (int i = 0; i < arr.length; i++) {
+            sum += arr[i];
+        }
+        return sum;
+    }
+    private int painters(int[] arr, int limit) {
+        int boardLength = 0;
+        int count = 1;
+        
+        for (int i = 0; i < arr.length; i++) {
+            if (boardLength + arr[i] <= limit) {
+                boardLength += arr[i];
+            } else {
+                count++;
+                boardLength = arr[i];
+            }
+        }
+        return count;
+    }
+}
