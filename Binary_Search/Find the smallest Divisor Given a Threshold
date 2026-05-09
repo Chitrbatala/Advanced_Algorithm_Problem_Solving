@@ -1,0 +1,39 @@
+class Solution {
+    public int smallestDivisor(int[] nums, int threshold) {
+        int low = 1;
+        int high = maximum(nums);
+
+        int ans = -1;
+
+        while (low <= high) {
+            int res = 0;
+            int mid = low + (high - low) / 2;
+            
+            for (int i = 0; i < nums.length; i++) {
+                if (nums[i] < mid) {
+                    res = res + 1;
+                } else if (nums[i] % mid == 0) {
+                    res = res + nums[i] / mid;
+                } else {
+                    res = res + 1 + nums[i] / mid;
+                }
+            }
+
+            if (res <= threshold) {
+                ans = mid;
+                high = mid - 1;
+            } else {
+                low = mid + 1;
+            }
+        }
+        return ans;
+    }
+    private int maximum(int[] nums) {
+        int max = nums[0];
+
+        for (int i = 0; i < nums.length; i++) {
+            max = Math.max(nums[i], max);
+        }
+        return max;
+    }
+}
