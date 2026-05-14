@@ -13,9 +13,9 @@ class Solution {
                 if (matrix[i][mid] == target) {
                     return true;
                 } else if (matrix[i][mid] < target) {
-                    l++;
+                    l = mid + 1;
                 } else {
-                    r--;
+                    r = mid - 1;
                 }
             }
         }
